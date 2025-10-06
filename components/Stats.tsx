@@ -7,14 +7,26 @@ export default function Stats() {
     spamBlocked: 0,
     accuracy: 95
   })
+  
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    // Fetch stats from API
+    setIsVisible(true)
+    
+    // Intentar obtener stats reales de la API
     fetch('https://spamguard.up.railway.app/api/v1/public-stats')
       .then(res => res.json())
-      .then(data => setStats(data))
+      .then(data => {
+        if (data.total_analyzed) {
+          setStats({
+            totalComments: data.total_analyzed,
+            spamBlocked: data.spam_blocked,
+            accuracy: Math.round(data.accuracy * 100)
+          })
+        }
+      })
       .catch(() => {
-        // Fallback a números estáticos si falla
+        // Fallback a animación de números
         animateNumber(0, 1250000, 2000, (val) => 
           setStats(prev => ({ ...prev, totalComments: val }))
         )
@@ -36,24 +48,24 @@ export default function Stats() {
   }
 
   return (
-    <section className="bg-indigo-600 py-16">
+    <section className="bg-gradient-to-r from-indigo-600 to-purple-600 py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 text-center">
-          <div>
+        <div className={`grid grid-cols-1 gap-8 sm:grid-cols-3 text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="animate-slide-up">
             <p className="text-5xl font-bold text-white">
               {stats.totalComments.toLocaleString()}+
             </p>
-            <p className="mt-2 text-indigo-100">Comentarios Analizados</p>
+            <p className="mt-2 text-lg text-indigo-100">Comentarios Analizados</p>
           </div>
-          <div>
+          <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <p className="text-5xl font-bold text-white">
               {stats.spamBlocked.toLocaleString()}+
             </p>
-            <p className="mt-2 text-indigo-100">Spam Bloqueado</p>
+            <p className="mt-2 text-lg text-indigo-100">Spam Bloqueado</p>
           </div>
-          <div>
+          <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <p className="text-5xl font-bold text-white">{stats.accuracy}%</p>
-            <p className="mt-2 text-indigo-100">Precisión</p>
+            <p className="mt-2 text-lg text-indigo-100">Precisión</p>
           </div>
         </div>
       </div>
