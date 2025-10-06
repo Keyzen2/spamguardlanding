@@ -56,21 +56,41 @@ export default function Hero() {
           
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
             <div className="relative">
-              {/* Placeholder para screenshot */}
-              <div className="rounded-2xl shadow-2xl bg-white p-8 border border-gray-200">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="h-8 w-32 bg-indigo-100 rounded animate-pulse"></div>
-                    <div className="h-8 w-20 bg-green-100 rounded animate-pulse"></div>
+              {/* Dashboard Mockup */}
+              <div className="relative rounded-2xl shadow-2xl overflow-hidden">
+                <img
+                  src="/dashboard-mockup.png"
+                  alt="SpamGuard AI Dashboard"
+                  className="w-full h-auto"
+                />
+                {/* Overlay gradient para darle profundidad */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 via-transparent to-purple-500/10 pointer-events-none"></div>
+                
+                {/* Badge flotante con métrica */}
+                <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-lg px-4 py-3 backdrop-blur-sm bg-opacity-95">
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1">
+                      <svg className="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-xs font-semibold text-gray-900">96.2% Accuracy</span>
+                    </div>
+                    <span className="text-xs text-green-600 font-medium">↑ 8%</span>
                   </div>
-                  <div className="h-32 bg-gray-100 rounded animate-pulse"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-5/6 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-4/6 animate-pulse"></div>
+                </div>
+                
+                {/* Badge flotante con spam bloqueado */}
+                <div className="absolute top-4 right-4 bg-red-50 rounded-lg shadow-lg px-4 py-3 backdrop-blur-sm bg-opacity-95 border border-red-100">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-red-600">1,247</div>
+                    <div className="text-xs text-red-800 font-medium">Spam bloqueado hoy</div>
                   </div>
                 </div>
               </div>
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+              <div className="absolute -bottom-8 -left-4 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
             </div>
           </div>
         </div>
