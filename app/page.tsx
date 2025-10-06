@@ -2,7 +2,7 @@ import Hero from '@/components/Hero'
 import Features from '@/components/Features'
 import Stats from '@/components/Stats'
 import FAQ from '@/components/FAQ'
-import Download from '@/components/Download'
+//import Download from '@/components/Download'
 
 export default function Home() {
   return (
