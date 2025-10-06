@@ -20,9 +20,6 @@ export default function Header() {
             <a href="https://github.com/tu-usuario/spamguard" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-indigo-600 transition-colors">
               GitHub
             </a>
-            <a href="#download" className="btn-primary">
-              Descargar
-            </a>
           </div>
           
           <button className="md:hidden p-2">
