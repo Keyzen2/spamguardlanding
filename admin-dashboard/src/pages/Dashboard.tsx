@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Globe, Shield, TrendingUp, Users } from 'lucide-react'
+import { Globe, Shield, TrendingUp, Users, AlertCircle, RefreshCw } from 'lucide-react'
 import CardDataStats from '../components/Cards/CardDataStats'
-import { adminApi } from '../lib/api'
+import { adminApi, APIError } from '../lib/api'
 import type { OverviewStats, Alert } from '../types'
 
 export default function Dashboard() {
   const [stats, setStats] = useState<OverviewStats | null>(null)
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [retrying, setRetrying] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -15,6 +17,7 @@ export default function Dashboard() {
 
   const loadData = async () => {
     try {
+      setError(null)
       const [statsData, alertsData] = await Promise.all([
         adminApi.getOverview(),
         adminApi.getAlerts()
@@ -23,15 +26,59 @@ export default function Dashboard() {
       setAlerts(alertsData)
     } catch (error) {
       console.error('Error loading dashboard:', error)
+
+      if (error instanceof APIError) {
+        if (error.code === 'NO_SESSION' || error.code === 'TOKEN_EXPIRED') {
+          setError('Sesión expirada. Por favor, vuelve a iniciar sesión.')
+        } else if (error.status === 503) {
+          setError('El servicio no está disponible temporalmente. Reintentando...')
+        } else {
+          setError(`Error: ${error.message}`)
+        }
+      } else {
+        setError('Error de conexión. Verifica tu conexión a internet.')
+      }
     } finally {
       setLoading(false)
+      setRetrying(false)
     }
+  }
+
+  const handleRetry = () => {
+    setRetrying(true)
+    setLoading(true)
+    loadData()
   }
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+      <div className="flex flex-col h-screen items-center justify-center">
+        <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-indigo-600 border-t-transparent mb-4"></div>
+        <p className="text-lg text-gray-600">
+          {retrying ? 'Reintentando...' : 'Cargando dashboard...'}
+        </p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col h-screen items-center justify-center">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-8 shadow-md max-w-md">
+          <div className="flex items-center mb-4">
+            <AlertCircle className="h-6 w-6 text-red-600 mr-2" />
+            <h3 className="text-lg font-semibold text-red-800">Error</h3>
+          </div>
+          <p className="text-red-700 mb-4">{error}</p>
+          <button
+            onClick={handleRetry}
+            disabled={retrying}
+            className="flex items-center justify-center w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${retrying ? 'animate-spin' : ''}`} />
+            {retrying ? 'Reintentando...' : 'Reintentar'}
+          </button>
+        </div>
       </div>
     )
   }
@@ -39,7 +86,7 @@ export default function Dashboard() {
   if (!stats) {
     return (
       <div className="rounded-sm border border-stroke bg-white p-10 shadow-default dark:border-strokedark dark:bg-boxdark">
-        <p className="text-center text-body">Error cargando datos</p>
+        <p className="text-center text-body">No se pudieron cargar los datos</p>
       </div>
     )
   }

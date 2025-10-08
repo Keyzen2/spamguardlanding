@@ -14,7 +14,7 @@ export default function Stats() {
     setIsVisible(true)
     
     // Intentar obtener stats reales de la API
-    fetch('https://spamguard.up.railway.app/api/v1/public-stats')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/public-stats`)
       .then(res => res.json())
       .then(data => {
         if (data.total_analyzed) {

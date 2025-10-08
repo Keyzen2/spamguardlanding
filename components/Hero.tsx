@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 sm:py-32">
+    <section className="relative overflow-hidden py-20 sm:py-32" aria-labelledby="hero-title">
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
@@ -13,7 +13,7 @@ export default function Hero() {
               <span className="text-sm font-medium text-indigo-600">🚀 Nuevo: Honeypot + Time Check</span>
             </div>
             
-            <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
+            <h1 id="hero-title" className="text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
               El Anti-Spam más{' '}
               <span className="gradient-text">Inteligente</span> para WordPress
             </h1>
@@ -60,8 +60,9 @@ export default function Hero() {
               <div className="relative rounded-2xl shadow-2xl overflow-hidden">
                 <img
                   src="/dashboard-mockup.png"
-                  alt="SpamGuard AI Dashboard"
+                  alt="Dashboard de SpamGuard AI mostrando estadísticas de spam bloqueado, precisión del modelo y gráficos en tiempo real"
                   className="w-full h-auto"
+                  loading="eager"
                 />
                 {/* Overlay gradient para darle profundidad */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 via-transparent to-purple-500/10 pointer-events-none"></div>

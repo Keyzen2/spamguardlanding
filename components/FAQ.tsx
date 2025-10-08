@@ -27,19 +27,26 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section className="py-24">
+    <section id="faq" className="py-24" aria-labelledby="faq-title">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 id="faq-title" className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Preguntas Frecuentes
           </h2>
         </div>
         <div className="mx-auto mt-16 max-w-3xl">
-          <dl className="space-y-8">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <dt className="text-lg font-semibold text-gray-900">{faq.question}</dt>
-                <dd className="mt-2 text-base text-gray-600">{faq.answer}</dd>
+          <dl className="space-y-8" role="list">
+            {faqs.map((faq, index) => (
+              <div key={faq.question} role="listitem">
+                <dt className="text-lg font-semibold text-gray-900" id={`faq-question-${index}`}>
+                  {faq.question}
+                </dt>
+                <dd
+                  className="mt-2 text-base text-gray-600"
+                  aria-labelledby={`faq-question-${index}`}
+                >
+                  {faq.answer}
+                </dd>
               </div>
             ))}
           </dl>
