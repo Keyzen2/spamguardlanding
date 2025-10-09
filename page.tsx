@@ -1,0 +1,15 @@
+import Hero from '@/components/Hero'
+import Features from '@/components/Features'
+import Stats from '@/components/Stats'
+import FAQ from '@/components/FAQ'
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <Hero />
+      <Stats />
+      <Features />
+      <FAQ />
+    </main>
+  )
+}
